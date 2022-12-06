@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "f1f5e2e9-c6bc-4382-86c3-a0d95101d3e3",
+		"name": "Gas Project API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CREATE Device",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"hassan\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/device",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"device"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE Device stats",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"hassan\",\n    \"latitude\": 10,\n    \"longitude\": 10,\n    \"currentWeight\":  10,\n    \"shouldGenerateGasAlert\": false,\n    \"shouldGenerateWeightAlert\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/device/stats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"device",
+						"stats"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

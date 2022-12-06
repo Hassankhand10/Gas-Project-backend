@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id       String         @id @default(uuid())
+  password String
+  account  AccountDetails? @relation(fields: [id], references: [id])
+  role     String
+  adminDevices  Device[] @relation(name: "assignedToAdmin")
+  vendorDevices Device[] @relation(name: "assignedToVendor")
+  userDevices Device[] @relation(name: "assignedToUser")
+  assignedTo Invoice[] @relation(name: "assignedTo")
+  assignedFrom Invoice[] @relation(name: "assignedFrom")
+}
+
+model AccountDetails {
+  id            String   @id
+  accountNumber String
+  accountTitle  String
+  profile       Profile?
+}
+
+model Device {
+  id        String   @id
+  admin Profile? @relation(name: "assignedToAdmin", fields: [assignedToAdmin], references: [id])
+  assignedToAdmin String?
+  vendor Profile? @relation(name: "assignedToVendor", fields: [assignedToVendor], references: [id])
+  assignedToVendor String?
+  user Profile? @relation(name: "assignedToUser", fields: [assignedToUser], references: [id])
+  assignedToUser String?
+  longitude Int @default(0)
+  latitude Int @default(0)
+  currentWeight Int @default(0)
+}
+
+model Invoice {
+  id String @id @default(uuid())
+  description String
+  amount BigInt
+  isPaid Boolean
+  creationDate DateTime @default(now())
+  assignedToID String
+  assignedFromID String
+  assignedTo Profile @relation(fields: [assignedToID], references: [id], name: "assignedTo")
+  assignedFrom Profile @relation(fields: [assignedFromID], references: [id], name: "assignedFrom")
+}
