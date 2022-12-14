@@ -1,4 +1,3 @@
-const { prisma } = require("@prisma/client");
 const repository = require("../repository/repository");
 
 class DeviceService {
@@ -25,6 +24,42 @@ class DeviceService {
             } 
         })
         return updatedDevice;
+    }
+
+    async assignAdmin(__deviceID, __adminID) {
+        const assignedDevice = await this.deviceRepository.update({
+            where: {
+                id: __deviceID
+            },
+            data: {
+                assignedToAdmin: __adminID
+            }
+        });
+        return assignedDevice;
+    }
+
+    async assignVendor(__deviceID, __vendorID) {
+        const assignedDevice = await this.deviceRepository.update({
+            where: {
+                id: __deviceID
+            },
+            data: {
+                assignedToVendor: __vendorID
+            }
+        });
+        return assignedDevice;
+    }
+
+    async assignUser(__deviceID, __userID) {
+        const assignedDevice = await this.deviceRepository.update({
+            where: {
+                id: __deviceID
+            },
+            data: {
+                assignedToUser: __userID
+            }
+        });
+        return assignedDevice;
     }
 }
 

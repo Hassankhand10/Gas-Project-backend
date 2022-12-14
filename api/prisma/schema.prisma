@@ -11,10 +11,12 @@ datasource db {
 }
 
 model Profile {
-  id       String         @id @default(uuid())
+  id       String @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
   password String
-  account  AccountDetails? @relation(fields: [id], references: [id])
+  name String
   role     String
+  account  AccountDetails? @relation(fields: [accountID], references: [id])
+  accountID String? @unique @db.Uuid
   adminDevices  Device[] @relation(name: "assignedToAdmin")
   vendorDevices Device[] @relation(name: "assignedToVendor")
   userDevices Device[] @relation(name: "assignedToUser")
@@ -23,20 +25,21 @@ model Profile {
 }
 
 model AccountDetails {
-  id            String   @id
+  id            String @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
   accountNumber String
   accountTitle  String
+  profileID     String @db.Uuid @unique
   profile       Profile?
 }
 
 model Device {
   id        String   @id
   admin Profile? @relation(name: "assignedToAdmin", fields: [assignedToAdmin], references: [id])
-  assignedToAdmin String?
+  assignedToAdmin String? @db.Uuid
   vendor Profile? @relation(name: "assignedToVendor", fields: [assignedToVendor], references: [id])
-  assignedToVendor String?
+  assignedToVendor String? @db.Uuid
   user Profile? @relation(name: "assignedToUser", fields: [assignedToUser], references: [id])
-  assignedToUser String?
+  assignedToUser String? @db.Uuid
   longitude Int @default(0)
   latitude Int @default(0)
   currentWeight Int @default(0)
@@ -48,8 +51,8 @@ model Invoice {
   amount BigInt
   isPaid Boolean
   creationDate DateTime @default(now())
-  assignedToID String
-  assignedFromID String
+  assignedToID String @db.Uuid
+  assignedFromID String @db.Uuid
   assignedTo Profile @relation(fields: [assignedToID], references: [id], name: "assignedTo")
   assignedFrom Profile @relation(fields: [assignedFromID], references: [id], name: "assignedFrom")
 }

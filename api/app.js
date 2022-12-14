@@ -9,6 +9,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
 app.use('/api/device', require('./routes/device.route'));
+app.use('/api/admin', require('./routes/admin.route'));
+app.use('/api/vendor', require('./routes/vendor.route'));
+app.use('/api/user', require('./routes/user.route'));
 
 app.use((req, res, next) => {
   next(createError.NotFound());

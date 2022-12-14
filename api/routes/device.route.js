@@ -13,4 +13,20 @@ router.put("/stats", async (request, response, next) => {
   response.json({ deviceUpdatedStats })
 });
 
+router.put("/admin", async (request, response, next) => {
+  const deviceUpdatedStats = await service.assignAdmin(request.body.deviceID, request.body.adminID);
+  response.json({ deviceUpdatedStats })
+});
+
+router.put("/vendor", async (request, response, next) => {
+  const deviceUpdatedStats = await service.assignVendor(request.body.deviceID, request.body.vendorID);
+  response.json({ deviceUpdatedStats })
+});
+
+router.put("/user", async (request, response, next) => {
+  const deviceUpdatedStats = await service.assignUser(request.body.deviceID, request.body.userID);
+  response.json({ deviceUpdatedStats })
+});
+
+
 module.exports = router;
