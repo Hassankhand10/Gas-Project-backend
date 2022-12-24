@@ -15,7 +15,8 @@ class UserService {
                 name: true,
                 role: true,
                 assignedTo: true,
-                userDevices: true
+                userDevices: true,
+                assignedTo: true
             }
         })
         return user;

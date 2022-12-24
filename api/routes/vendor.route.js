@@ -1,9 +1,15 @@
 const router = require("express").Router();
+const { request, response } = require("express");
 const AccountDetailsService = require("../services/account-details.service");
 const VendorService = require("../services/vendor.service");
 
 const vendorService = new VendorService();
 const accountDetailsService =  new AccountDetailsService();
+
+router.get("/" , async (request , response , next) => {
+    const vendors = await vendorService.getvendors();
+    response.json({ vendors });
+})
 
 router.get("/:id", async (request, response, next) => {
     const vendor = await vendorService.getVendor(request.params.id);

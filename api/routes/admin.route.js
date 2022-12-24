@@ -5,6 +5,11 @@ const AdminService = require("../services/admin.service");
 const adminService = new AdminService();
 const accountDetailsService =  new AccountDetailsService();
 
+router.get("/", async (request, response, next) => {
+    const admins = await adminService.getAdmins();
+    response.json({ admins });
+});
+
 router.get("/:id", async (request, response, next) => {
     const admin = await adminService.getAdmin(request.params.id);
     response.json({ admin });

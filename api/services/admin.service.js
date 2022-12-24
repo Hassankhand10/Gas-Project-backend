@@ -5,6 +5,20 @@ class AdminService {
         this.adminRepository = repository.profile;
     }
 
+    async getAdmins() {
+        const admins = await this.adminRepository.findMany({
+            where: {
+                role: "admin"
+            },
+            select: {
+                id: true,
+                name: true,
+                adminDevices: true
+            }
+        });
+        return admins;
+    }
+ 
     async getAdmin(__adminID) {
         const admin = await this.adminRepository.findUnique({
             where: {
@@ -17,7 +31,7 @@ class AdminService {
                 account: true,
                 assignedTo: true,
                 assignedFrom: true,
-                adminDevices: true
+                adminDevices: true,
             }
         })
         return admin;

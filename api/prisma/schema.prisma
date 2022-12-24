@@ -47,9 +47,9 @@ model Device {
 
 model Invoice {
   id String @id @default(uuid())
-  description String
-  amount BigInt
-  isPaid Boolean
+  description String?
+  amount Int
+  isPaid Boolean @default(false)
   creationDate DateTime @default(now())
   assignedToID String @db.Uuid
   assignedFromID String @db.Uuid
