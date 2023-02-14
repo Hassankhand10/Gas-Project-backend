@@ -22,12 +22,17 @@ model Profile {
   userDevices Device[] @relation(name: "assignedToUser")
   assignedTo Invoice[] @relation(name: "assignedTo")
   assignedFrom Invoice[] @relation(name: "assignedFrom")
+  createdByID String? @db.Uuid
+  createdBy   Profile?   @relation("createdBy", fields: [createdByID], references: [id])
+  profilesCreated  Profile[]  @relation("createdBy")
+  deviceID String?
 }
 
 model AccountDetails {
   id            String @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
   accountNumber String
   accountTitle  String
+  bankName      String
   profileID     String @db.Uuid @unique
   profile       Profile?
 }
@@ -55,4 +60,5 @@ model Invoice {
   assignedFromID String @db.Uuid
   assignedTo Profile @relation(fields: [assignedToID], references: [id], name: "assignedTo")
   assignedFrom Profile @relation(fields: [assignedFromID], references: [id], name: "assignedFrom")
+  receiptUrl String?
 }

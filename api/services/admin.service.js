@@ -32,6 +32,7 @@ class AdminService {
                 assignedTo: true,
                 assignedFrom: true,
                 adminDevices: true,
+                deviceID: true
             }
         })
         return admin;

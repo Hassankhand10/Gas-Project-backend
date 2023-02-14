@@ -14,26 +14,57 @@ class VendorService {
         id: true,
         name: true,
         vendorDevices: true,
+        createdByID: true,
       },
     });
+    return vendors;
+  }
+
+  async updateDeviceId(__deviceID, __vendorID) {
+    const updatedDeviceId = await this.vendorRepository.update({
+      where: {
+          id: __vendorID,
+        },
+        data: {
+          deviceID : __deviceID,
+        },
+    });
+    return updatedDeviceId;
+  }
+
+  async getVendorsByCreatedByID(__createdByID) {
+    const vendors = await this.vendorRepository.findMany({
+      where: {
+        role: "vendor",
+        createdByID: __createdByID,
+      },
+      select: {
+        id: true,
+        name: true,
+        vendorDevices: true,
+      },
+    });
+    return vendors;
   }
 
   async getVendor(__vendorID) {
-    const admin = await this.vendorRepository.findUnique({
+    const vendor = await this.vendorRepository.findUnique({
       where: {
         id: __vendorID,
       },
       select: {
         id: true,
         name: true,
+        password: true,
         role: true,
         account: true,
         assignedTo: true,
         assignedFrom: true,
         vendorDevices: true,
+        deviceID: true,
       },
     });
-    return admin;
+    return vendor;
   }
 
   async createVendor(__vendor) {

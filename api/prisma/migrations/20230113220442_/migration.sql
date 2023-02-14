@@ -5,6 +5,8 @@ CREATE TABLE "Profile" (
     "name" TEXT NOT NULL,
     "role" TEXT NOT NULL,
     "accountID" UUID,
+    "createdByID" UUID,
+    "deviceID" TEXT,
 
     CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
 );
@@ -14,6 +16,7 @@ CREATE TABLE "AccountDetails" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "accountNumber" TEXT NOT NULL,
     "accountTitle" TEXT NOT NULL,
+    "bankName" TEXT NOT NULL,
     "profileID" UUID NOT NULL,
 
     CONSTRAINT "AccountDetails_pkey" PRIMARY KEY ("id")
@@ -41,6 +44,7 @@ CREATE TABLE "Invoice" (
     "creationDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "assignedToID" UUID NOT NULL,
     "assignedFromID" UUID NOT NULL,
+    "receiptUrl" TEXT,
 
     CONSTRAINT "Invoice_pkey" PRIMARY KEY ("id")
 );
@@ -53,6 +57,9 @@ CREATE UNIQUE INDEX "AccountDetails_profileID_key" ON "AccountDetails"("profileI
 
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_accountID_fkey" FOREIGN KEY ("accountID") REFERENCES "AccountDetails"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Profile" ADD CONSTRAINT "Profile_createdByID_fkey" FOREIGN KEY ("createdByID") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Device" ADD CONSTRAINT "Device_assignedToAdmin_fkey" FOREIGN KEY ("assignedToAdmin") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
